@@ -1,10 +1,15 @@
 package br.com.leonardo.diarists.model;
 
+import java.util.List;
+
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -38,6 +43,30 @@ public class Usuario {
 	
 	@NotNull
 	private String senha;
+	
+	@ManyToMany
+	@JoinTable(
+		name="contratacao",
+		joinColumns= @JoinColumn(name = "usuario_id"),
+		inverseJoinColumns = @JoinColumn(name="contrato_id")
+	)
+	private List<Contrato> contratos;
+	
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public List<Contrato> getContratos() {
+		return contratos;
+	}
+
+	public void setContratos(List<Contrato> contratos) {
+		this.contratos = contratos;
+	}
 	
 	public String getNome() {
 		return nome;
