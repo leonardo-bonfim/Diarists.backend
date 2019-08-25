@@ -3,6 +3,7 @@ package br.com.leonardo.diarists.model;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -19,11 +20,20 @@ public class Contrato {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+
+	@NotNull
 	private String descricao;
 	
+	//@NotNull
+	@Column()
+	private String restricao;
+	
 	@Embedded
-	@NotNull
+	//@NotNull
 	private Endereco endereco;
+	
+	private String latitude;
+	private String longitude;
 	
 	@ManyToMany(
 		cascade=CascadeType.ALL,
@@ -49,15 +59,24 @@ public class Contrato {
 	public void setUsuarios(List<Usuario> usuarios) {
 		this.usuarios = usuarios;
 	}
-	
 	public Endereco getEndereco() {
 		return endereco;
 	}
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	
-	
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -65,6 +84,8 @@ public class Contrato {
 		result = prime * result + ((descricao == null) ? 0 : descricao.hashCode());
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((latitude == null) ? 0 : latitude.hashCode());
+		result = prime * result + ((longitude == null) ? 0 : longitude.hashCode());
 		result = prime * result + ((usuarios == null) ? 0 : usuarios.hashCode());
 		return result;
 	}
@@ -92,12 +113,28 @@ public class Contrato {
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
+		if (latitude == null) {
+			if (other.latitude != null)
+				return false;
+		} else if (!latitude.equals(other.latitude))
+			return false;
+		if (longitude == null) {
+			if (other.longitude != null)
+				return false;
+		} else if (!longitude.equals(other.longitude))
+			return false;
 		if (usuarios == null) {
 			if (other.usuarios != null)
 				return false;
 		} else if (!usuarios.equals(other.usuarios))
 			return false;
 		return true;
+	}
+	public String getRestricao() {
+		return restricao;
+	}
+	public void setRestricao(String restricao) {
+		this.restricao = restricao;
 	}
 	
 }
