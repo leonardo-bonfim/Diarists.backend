@@ -1,7 +1,10 @@
 package br.com.leonardo.diarists.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import br.com.leonardo.diarists.model.Contrato;
@@ -25,6 +28,10 @@ public class ContratoService {
 		contratoRepository.save(contrato);
 		//usuarioRepository.save(usuario.get());
 		
+	}
+	
+	public List<Contrato> buscarContratosProximos(String latitude, String longitude, Double range, Pageable pageable) {
+		return contratoRepository.findContratosByRange(latitude, longitude, range, pageable);
 	}
 	
 }
