@@ -14,9 +14,9 @@ create table contrato (
 	primary key (id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE contratacao (
+CREATE TABLE usuario_contrato (
 	usuario_id bigint not null,
 	contrato_id bigint not null,
 	FOREIGN KEY(usuario_id) REFERENCES usuario(id),
-	FOREIGN KEY(contrato_id) REFERENCES usuario(id) 
+	FOREIGN KEY(contrato_id) REFERENCES contrato(id) 
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

@@ -1,6 +1,7 @@
 package br.com.leonardo.diarists.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -32,13 +33,14 @@ public class ContratoController {
 	}
 	
 	@GetMapping
-	public void buscarContratosProximos(
+	@ResponseStatus(code = HttpStatus.OK)
+	public Page<Contrato> buscarContratosProximos(
 		@RequestParam String latitude,
 		@RequestParam String longitude,
 		@RequestParam Double range,
 		Pageable pageable) {
 		
-		contratoService.buscarContratosProximos(latitude, longitude, range, pageable);
+		return contratoService.buscarContratosProximos(latitude, longitude, range, pageable);
 	}
 	
 }
