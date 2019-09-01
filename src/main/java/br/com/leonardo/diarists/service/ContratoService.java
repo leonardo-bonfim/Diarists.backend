@@ -12,9 +12,6 @@ import br.com.leonardo.diarists.repository.ContratoRepository;
 @Service
 public class ContratoService {
 	
-	@Value("${google.apikey}")
-	String ApiKey;
-	
 	@Autowired
 	private ContratoRepository contratoRepository;
 	

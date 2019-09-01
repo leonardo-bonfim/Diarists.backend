@@ -11,6 +11,7 @@ CREATE TABLE usuario (
     cep VARCHAR(10),
     cidade VARCHAR(20),
     uf VARCHAR(20),
+    foto BLOB,
 	email VARCHAR(50),
 	senha VARCHAR(150)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

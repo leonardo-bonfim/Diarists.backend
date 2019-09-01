@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
+import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -38,6 +39,9 @@ public class Usuario {
 	
 	@Embedded
 	private Endereco endereco;
+	
+	@Lob
+	private byte[] foto;
 	
 	@NotNull
 	private String email;
