@@ -5,7 +5,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 @ConfigurationProperties("diarists")
 public class DiaristsApiProperty {
 	
-	private String originPermitida = "http://localhost:8100";
+	private String originPermitida = "*";
 	
 	public String getOriginPermitida() {
 		return originPermitida;

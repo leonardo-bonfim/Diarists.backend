@@ -118,6 +118,14 @@ public class Usuario {
 		this.endereco = endereco;
 	}
 
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
+
 	public String getEmail() {
 		return email;
 	}
