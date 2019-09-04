@@ -3,7 +3,6 @@ package br.com.leonardo.diarists.model;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,15 +23,17 @@ public class Contrato {
 	@NotNull
 	private String descricao;
 	
-	//@NotNull
-	@Column()
+	@NotNull
 	private String restricao;
 	
 	@Embedded
-	//@NotNull
+	@NotNull
 	private Endereco endereco;
 	
+	@NotNull
 	private String latitude;
+	
+	@NotNull
 	private String longitude;
 	
 	@ManyToMany(
