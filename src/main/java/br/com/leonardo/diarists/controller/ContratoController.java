@@ -51,7 +51,6 @@ public class ContratoController {
 	) throws JsonParseException, JsonMappingException, IOException {
 		
 		String email = obterEmailDoJwt(request);
-	    
 		var response = contratoService.criar(contrato, result, email);
 		
 		if(response.getErrors().isEmpty())
@@ -99,6 +98,5 @@ public class ContratoController {
 	    String email = jwtDecodedMap.get("user_name").toString();
 		return email;
 	}
-	
 	
 }

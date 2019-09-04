@@ -41,23 +41,31 @@ public class ContratoService {
 	public Response<Contrato> adicionarNoContrato(String email, Long contratoId) {
 		
 		var response = new Response<Contrato>();
-		
 		var contrato = contratoRepository.findById(contratoId);
 		var usuario = usuarioRepository.findByEmail(email);
 		
-		if(usuario.isPresent()) {
-			if(contrato.isPresent()) {
-				if(contrato.get().getUsuarios().size() < 2) {
-					contrato.get().getUsuarios().add(usuario.get());
-					usuario.get().getContratos().add(contrato.get());
-					contratoRepository.save(contrato.get());
-					usuarioRepository.save(usuario.get());
-				}
-				else response.getErrors().add("Este contrato já está fechado!");
-			}
-			else response.getErrors().add("Contrato não existe!");
+		if(!usuario.isPresent()) {
+			response.getErrors().add("Usuário não existe!");
+			return response;
 		}
-		else response.getErrors().add("Usuário não existe!");
+			
+		if(!contrato.isPresent()) {
+			response.getErrors().add("Contrato não existe!");
+			return response;
+		}
+		
+		if(contrato.get().getUsuarios().size() >= 2)
+			response.getErrors().add("Este contrato já está fechado!");
+		
+		if(contrato.get().getUsuarios().indexOf(usuario.get()) != -1)
+			response.getErrors().add("Este usuário já está alocado neste contrato!");
+		
+		if(response.getErrors().size() == 0) {
+			contrato.get().getUsuarios().add(usuario.get());
+			usuario.get().getContratos().add(contrato.get());
+			contratoRepository.save(contrato.get());
+			usuarioRepository.save(usuario.get());
+		}
 		
 		return response;
 	}

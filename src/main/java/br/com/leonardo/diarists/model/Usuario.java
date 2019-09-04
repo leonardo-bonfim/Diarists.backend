@@ -13,8 +13,11 @@ import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
 @Entity
@@ -44,9 +47,11 @@ public class Usuario {
 	private byte[] foto;
 	
 	@NotNull
+	@Email
 	private String email;
 	
 	@NotNull
+	@Length(min = 6, message="A senha deve ter 6 ou mais caracteres")
 	private String senha;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
