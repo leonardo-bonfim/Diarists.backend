@@ -1,5 +1,6 @@
 package br.com.leonardo.diarists.model;
 
+import java.util.Arrays;
 import java.util.List;
 
 import javax.persistence.Embedded;
@@ -14,7 +15,6 @@ import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Length;
@@ -163,6 +163,7 @@ public class Usuario {
 		result = prime * result + ((cpf == null) ? 0 : cpf.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
 		result = prime * result + ((endereco == null) ? 0 : endereco.hashCode());
+		result = prime * result + Arrays.hashCode(foto);
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((nome == null) ? 0 : nome.hashCode());
 		result = prime * result + ((permissoes == null) ? 0 : permissoes.hashCode());
@@ -200,6 +201,8 @@ public class Usuario {
 			if (other.endereco != null)
 				return false;
 		} else if (!endereco.equals(other.endereco))
+			return false;
+		if (!Arrays.equals(foto, other.foto))
 			return false;
 		if (id == null) {
 			if (other.id != null)
