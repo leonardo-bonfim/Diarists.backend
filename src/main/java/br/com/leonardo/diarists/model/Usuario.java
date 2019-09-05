@@ -21,6 +21,8 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table
 public class Usuario {
@@ -35,10 +37,12 @@ public class Usuario {
 	private String sobrenome;
 	
 	@NotNull
-	private Character sexo;
+	@Pattern(regexp="([M]{1}|[F]{1})", message="O sexo deve ser M ou F")
+	@Length(min=1, max=1, message="O CPF deve ter apenas 1 caractere")
+	private String sexo;
 	
 	@CPF
-	@Pattern(regexp = "(\\d{3}[\\.]\\d{3}[\\.]\\d{3}[\\-]\\d{2})", message = "Formato de CPF inválido!")
+	@Pattern(regexp="(\\d{3}[\\.]\\d{3}[\\.]\\d{3}[\\-]\\d{2})", message = "Formato de CPF inválido!")
 	@NotNull
 	private String cpf;
 	
@@ -62,6 +66,7 @@ public class Usuario {
 	private List<Permissao> permissoes;
 	
 	@ManyToMany
+	@JsonIgnore
 	@JoinTable(
 		name="usuario_contrato",
 		joinColumns= @JoinColumn(name = "usuario_id"),
@@ -101,11 +106,11 @@ public class Usuario {
 		this.sobrenome = sobrenome;
 	}
 
-	public Character getSexo() {
+	public String getSexo() {
 		return sexo;
 	}
 
-	public void setSexo(Character sexo) {
+	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
 

@@ -1,11 +1,16 @@
 package br.com.leonardo.diarists.service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
+import br.com.leonardo.diarists.dto.ContratoDto;
 import br.com.leonardo.diarists.model.Contrato;
 import br.com.leonardo.diarists.repository.ContratoRepository;
 import br.com.leonardo.diarists.repository.UsuarioRepository;
@@ -38,6 +43,16 @@ public class ContratoService {
 		return response;
 	}
 	
+	public Page<ContratoDto> buscarContratosDoUsuario(String email, Pageable pageable) {
+		var usuario = usuarioRepository.findByEmail(email);
+		var contratoList = usuario.get().getContratos();
+		
+		List<ContratoDto> contratoDtoList = paginarContratos(contratoList, pageable);
+		
+		return new PageImpl<>(contratoDtoList, pageable, contratoList.size());
+	}
+	
+
 	public Response<Contrato> adicionarNoContrato(String email, Long contratoId) {
 		
 		var response = new Response<Contrato>();
@@ -74,4 +89,33 @@ public class ContratoService {
 		return contratoRepository.findContratosByRange(latitude, longitude, range, pageable);
 	}
 	
+	private List<ContratoDto> paginarContratos(List<Contrato> contratoList, Pageable pageable) {
+		var contratoDtoList = new ArrayList<ContratoDto>();
+		
+		int paginaAtual = pageable.getPageNumber();
+		int totalRegistrosPorPagina = pageable.getPageSize();
+		int primeiroRegistroDaPagina = paginaAtual * totalRegistrosPorPagina;
+		int ultimoRegistroDaPagina = primeiroRegistroDaPagina + totalRegistrosPorPagina;
+		
+		for(int i = 0; i < contratoList.size(); i++) { //TODO Achar um jeito melhor de fazer esse for
+			if(i >= primeiroRegistroDaPagina && i < ultimoRegistroDaPagina) {
+				contratoDtoList.add(contratoToDto(contratoList.get(i)));
+			}
+		}
+		return contratoDtoList;
+	}
+	
+	private ContratoDto contratoToDto(Contrato contrato) {
+		
+		ContratoDto contratoDto = new ContratoDto();
+		List<String> envolvidos = new ArrayList<>();
+		
+		contrato.getUsuarios().forEach(usuario -> envolvidos.add(usuario.getNome()));
+		
+		contratoDto.setEnvolvidos(envolvidos);
+		contratoDto.setDescricao(contrato.getDescricao());
+		
+		return contratoDto;
+		
+	}
 }

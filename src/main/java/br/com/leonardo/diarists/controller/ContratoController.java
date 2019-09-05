@@ -30,6 +30,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import br.com.leonardo.diarists.dto.ContratoDto;
 import br.com.leonardo.diarists.model.Contrato;
 import br.com.leonardo.diarists.response.Response;
 import br.com.leonardo.diarists.service.ContratoService;
@@ -59,8 +60,19 @@ public class ContratoController {
 		return ResponseEntity.badRequest().body(response);
 		
 	}
-
+	
 	@GetMapping
+	@ResponseStatus(code = HttpStatus.OK)
+	public Page<ContratoDto> listarContratosDoUsuario(
+			Pageable pageable,
+			HttpServletRequest request) throws JsonParseException, JsonMappingException, IOException {
+		
+		String email = obterEmailDoJwt(request);
+		
+		return contratoService.buscarContratosDoUsuario(email, pageable);
+	}
+
+	@GetMapping("/proximos")
 	@ResponseStatus(code = HttpStatus.OK)
 	public Page<Contrato> buscarContratosProximos(
 		@RequestParam String latitude,
@@ -71,6 +83,7 @@ public class ContratoController {
 		return contratoService.buscarContratosProximos(latitude, longitude, range, pageable);
 		
 	}
+	
 	
 	@PutMapping("/{id}")
 	public ResponseEntity<Response<Contrato>> adicionarUsuarioNoContrato(
