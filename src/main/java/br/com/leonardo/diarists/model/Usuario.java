@@ -16,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
@@ -37,6 +38,7 @@ public class Usuario {
 	private Character sexo;
 	
 	@CPF
+	@Pattern(regexp = "(\\d{3}[\\.]\\d{3}[\\.]\\d{3}[\\-]\\d{2})", message = "Formato de CPF inválido!")
 	@NotNull
 	private String cpf;
 	

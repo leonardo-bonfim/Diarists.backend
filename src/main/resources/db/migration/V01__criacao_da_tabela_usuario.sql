@@ -3,7 +3,7 @@ CREATE TABLE usuario (
 	nome VARCHAR(50) NOT NULL,
 	sobrenome VARCHAR(100) NOT NULL,
 	sexo CHAR(1) NOT NULL,
-	cpf VARCHAR(11) NOT NULL,
+	cpf VARCHAR(14) NOT NULL,
 	logradouro VARCHAR(100),
     numero VARCHAR(10),
     complemento VARCHAR(20),
@@ -29,25 +29,15 @@ CREATE TABLE usuario_permissao (
 	FOREIGN KEY (id_permissao) REFERENCES permissao(id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-INSERT INTO usuario (id, nome, sobrenome, sexo, cpf, email, senha) values (1, 'Administrador', '1', 'M', '23115115123', 'admin', '$2a$10$v6INs3LnW3SPyK6CXSNAS.Fm6skO0K99dRRGPB68Wdkpcm.Xp0ohq');
+INSERT INTO usuario (id, nome, sobrenome, sexo, cpf, email, senha) values (1, 'Cadastro', '0', '0', '0', 'cadastro', '$2a$10$sWMoGSl6NoYEjKE1fhR3fucswZxmwOdSlBMCEJzkCjx45R.ElaYFm');
+INSERT INTO usuario (id, nome, sobrenome, sexo, cpf, email, senha) values (2, 'Administrador', '1', 'M', '23115115123', 'admin', '$2a$10$v6INs3LnW3SPyK6CXSNAS.Fm6skO0K99dRRGPB68Wdkpcm.Xp0ohq');
 
-INSERT INTO permissao (id, descricao) values (1, 'ROLE_CADASTRAR_CATEGORIA');
-INSERT INTO permissao (id, descricao) values (2, 'ROLE_PESQUISAR_CATEGORIA');
+-- PERMISSÕES
 
-INSERT INTO permissao (id, descricao) values (3, 'ROLE_CADASTRAR_PESSOA');
-INSERT INTO permissao (id, descricao) values (4, 'ROLE_REMOVER_PESSOA');
-INSERT INTO permissao (id, descricao) values (5, 'ROLE_PESQUISAR_PESSOA');
+INSERT INTO permissao (id, descricao) values (1, 'ROLE_CADASTRO');
+INSERT INTO permissao (id, descricao) values (2, 'ROLE_USUARIO');
 
-INSERT INTO permissao (id, descricao) values (6, 'ROLE_CADASTRAR_LANCAMENTO');
-INSERT INTO permissao (id, descricao) values (7, 'ROLE_REMOVER_LANCAMENTO');
-INSERT INTO permissao (id, descricao) values (8, 'ROLE_PESQUISAR_LANCAMENTO');
+-- INSERIR PERMISSÕES AOS USUARIOS
 
--- admin
 INSERT INTO usuario_permissao (id_usuario, id_permissao) values (1, 1);
-INSERT INTO usuario_permissao (id_usuario, id_permissao) values (1, 2);
-INSERT INTO usuario_permissao (id_usuario, id_permissao) values (1, 3);
-INSERT INTO usuario_permissao (id_usuario, id_permissao) values (1, 4);
-INSERT INTO usuario_permissao (id_usuario, id_permissao) values (1, 5);
-INSERT INTO usuario_permissao (id_usuario, id_permissao) values (1, 6);
-INSERT INTO usuario_permissao (id_usuario, id_permissao) values (1, 7);
-INSERT INTO usuario_permissao (id_usuario, id_permissao) values (1, 8);
+INSERT INTO usuario_permissao (id_usuario, id_permissao) values (2, 2);
