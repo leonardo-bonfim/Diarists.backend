@@ -77,13 +77,16 @@ public class ContratoController {
 
 	@GetMapping("/proximos")
 	@ResponseStatus(code = HttpStatus.OK)
-	public Page<ContratoDto> buscarContratosProximos(
+	public Response<Page<ContratoDto>> buscarContratosProximos(
 		@RequestParam String latitude,
 		@RequestParam String longitude,
 		@RequestParam Double range,
 		Pageable pageable) {
 		
-		return contratoService.buscarContratosProximos(latitude, longitude, range, pageable);
+		var response = new Response<Page<ContratoDto>>();
+		response.setData(contratoService.buscarContratosProximos(latitude, longitude, range, pageable));
+		
+		return response;
 		
 	}
 	
