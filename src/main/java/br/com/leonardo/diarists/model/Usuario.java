@@ -21,8 +21,6 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
 @Entity
 @Table
 public class Usuario {
@@ -66,7 +64,6 @@ public class Usuario {
 	private List<Permissao> permissoes;
 	
 	@ManyToMany
-	@JsonIgnore
 	@JoinTable(
 		name="usuario_contrato",
 		joinColumns= @JoinColumn(name = "usuario_id"),
