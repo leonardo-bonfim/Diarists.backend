@@ -61,7 +61,7 @@ public class ContratoController {
 		
 	}
 	
-	@GetMapping
+	@GetMapping("/participado")
 	@ResponseStatus(code = HttpStatus.OK)
 	public Response<Page<ContratoDto>> listarContratosDoUsuario(
 			Pageable pageable,
@@ -81,10 +81,13 @@ public class ContratoController {
 		@RequestParam String latitude,
 		@RequestParam String longitude,
 		@RequestParam Double range,
-		Pageable pageable) {
+		HttpServletRequest request,
+		Pageable pageable) throws JsonParseException, JsonMappingException, IOException {
+		
+		String email = obterEmailDoJwt(request);
 		
 		var response = new Response<Page<ContratoDto>>();
-		response.setData(contratoService.buscarContratosProximos(latitude, longitude, range, pageable));
+		response.setData(contratoService.buscarContratosProximos(latitude, longitude, range, email, pageable));
 		
 		return response;
 		

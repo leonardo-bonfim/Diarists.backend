@@ -87,9 +87,11 @@ public class ContratoService {
 		return response;
 	}
 	
-	public Page<ContratoDto> buscarContratosProximos(String latitude, String longitude, Double range, Pageable pageable) {
+	public Page<ContratoDto> buscarContratosProximos(String latitude, String longitude, Double range, String email, Pageable pageable) {
 		
-		List<Contrato> contratoList = contratoRepository.findContratosByRange(latitude, longitude, range, pageable);
+		var usuario = usuarioRepository.findByEmail(email);
+		
+		List<Contrato> contratoList = contratoRepository.findContratosByRange(latitude, longitude, range, usuario.get().getSexo(), usuario.get().getId(), pageable);
 		List<ContratoDto> contratoDtoList = new ArrayList<>();
 		
 		contratoList.forEach(contrato -> contratoDtoList.add(contratoToDto(contrato)));
