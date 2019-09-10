@@ -61,26 +61,35 @@ public class ContratoController {
 		
 	}
 	
-	@GetMapping
+	@GetMapping("/participado")
 	@ResponseStatus(code = HttpStatus.OK)
-	public Page<ContratoDto> listarContratosDoUsuario(
+	public Response<Page<ContratoDto>> listarContratosDoUsuario(
 			Pageable pageable,
 			HttpServletRequest request) throws JsonParseException, JsonMappingException, IOException {
 		
 		String email = obterEmailDoJwt(request);
 		
-		return contratoService.buscarContratosDoUsuario(email, pageable);
+		var response = new Response<Page<ContratoDto>>();
+		response.setData(contratoService.buscarContratosDoUsuario(email, pageable));
+		
+		return response;
 	}
 
 	@GetMapping("/proximos")
 	@ResponseStatus(code = HttpStatus.OK)
-	public Page<Contrato> buscarContratosProximos(
+	public Response<Page<ContratoDto>> buscarContratosProximos(
 		@RequestParam String latitude,
 		@RequestParam String longitude,
 		@RequestParam Double range,
-		Pageable pageable) {
+		HttpServletRequest request,
+		Pageable pageable) throws JsonParseException, JsonMappingException, IOException {
 		
-		return contratoService.buscarContratosProximos(latitude, longitude, range, pageable);
+		String email = obterEmailDoJwt(request);
+		
+		var response = new Response<Page<ContratoDto>>();
+		response.setData(contratoService.buscarContratosProximos(latitude, longitude, range, email, pageable));
+		
+		return response;
 		
 	}
 	

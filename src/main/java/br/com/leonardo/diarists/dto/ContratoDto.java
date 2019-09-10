@@ -5,19 +5,19 @@ import java.util.List;
 public class ContratoDto {
 	
 	private String descricao;
-	private List<String> envolvidos;
+	private List<UsuarioDto> usuarios;
 	
 	public String getDescricao() {
 		return descricao;
 	}
-	public List<String> getEnvolvidos() {
-		return envolvidos;
+	public List<UsuarioDto> getUsuarios() {
+		return usuarios;
 	}
 	public void setDescricao(String descricao) {
 		this.descricao = descricao;
 	}
-	public void setEnvolvidos(List<String> nomeContratante) {
-		this.envolvidos = nomeContratante;
+	public void setUsuarios(List<UsuarioDto> usuarios) {
+		this.usuarios = usuarios;
 	}
 	
 }

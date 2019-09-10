@@ -11,7 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.validation.BindingResult;
 
 import br.com.leonardo.diarists.dto.ContratoDto;
+import br.com.leonardo.diarists.dto.UsuarioDto;
 import br.com.leonardo.diarists.model.Contrato;
+import br.com.leonardo.diarists.model.Usuario;
 import br.com.leonardo.diarists.repository.ContratoRepository;
 import br.com.leonardo.diarists.repository.UsuarioRepository;
 import br.com.leonardo.diarists.response.Response;
@@ -85,8 +87,16 @@ public class ContratoService {
 		return response;
 	}
 	
-	public Page<Contrato> buscarContratosProximos(String latitude, String longitude, Double range, Pageable pageable) {
-		return contratoRepository.findContratosByRange(latitude, longitude, range, pageable);
+	public Page<ContratoDto> buscarContratosProximos(String latitude, String longitude, Double range, String email, Pageable pageable) {
+		
+		var usuario = usuarioRepository.findByEmail(email);
+		
+		List<Contrato> contratoList = contratoRepository.findContratosByRange(latitude, longitude, range, usuario.get().getSexo(), usuario.get().getId(), pageable);
+		List<ContratoDto> contratoDtoList = new ArrayList<>();
+		
+		contratoList.forEach(contrato -> contratoDtoList.add(contratoToDto(contrato)));
+		
+		return new PageImpl<>(contratoDtoList, pageable, contratoDtoList.size());
 	}
 	
 	private List<ContratoDto> paginarContratos(List<Contrato> contratoList, Pageable pageable) {
@@ -108,14 +118,24 @@ public class ContratoService {
 	private ContratoDto contratoToDto(Contrato contrato) {
 		
 		ContratoDto contratoDto = new ContratoDto();
-		List<String> envolvidos = new ArrayList<>();
+		List<UsuarioDto> usuarios = new ArrayList<>();
 		
-		contrato.getUsuarios().forEach(usuario -> envolvidos.add(usuario.getNome()));
+		contrato.getUsuarios().forEach(usuario -> usuarios.add(usuarioToDto(usuario)));
 		
-		contratoDto.setEnvolvidos(envolvidos);
+		contratoDto.setUsuarios(usuarios);
 		contratoDto.setDescricao(contrato.getDescricao());
 		
 		return contratoDto;
 		
+	}
+	
+	private UsuarioDto usuarioToDto(Usuario usuario) {
+		UsuarioDto usuarioDto = new UsuarioDto();
+		usuarioDto.setNome(usuario.getNome());
+		usuarioDto.setSobrenome(usuario.getSobrenome());
+		usuarioDto.setSexo(usuario.getSexo());
+		usuarioDto.setEndereco(usuario.getEndereco());
+		
+		return usuarioDto;
 	}
 }
