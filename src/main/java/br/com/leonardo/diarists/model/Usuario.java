@@ -38,7 +38,7 @@ public class Usuario {
 	
 	@NotNull
 	@Pattern(regexp="([M]{1}|[F]{1})", message="O sexo deve ser M ou F")
-	@Length(min=1, max=1, message="O CPF deve ter apenas 1 caractere")
+	@Length(min=1, max=1, message="O sexo deve ter apenas 1 caractere")
 	private String sexo;
 	
 	@CPF
@@ -66,12 +66,12 @@ public class Usuario {
 	private List<Permissao> permissoes;
 	
 	@ManyToMany
-	@JsonIgnore
 	@JoinTable(
 		name="usuario_contrato",
 		joinColumns= @JoinColumn(name = "usuario_id"),
 		inverseJoinColumns = @JoinColumn(name="contrato_id")
 	)
+	@JsonIgnore
 	private List<Contrato> contratos;
 	
 	public Long getId() {
