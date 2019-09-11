@@ -94,7 +94,7 @@ public class ContratoService {
 		List<Contrato> contratoList = contratoRepository.findContratosByRange(latitude, longitude, range, usuario.get().getSexo(), usuario.get().getId(), pageable);
 		List<ContratoDto> contratoDtoList = new ArrayList<>();
 		
-		contratoList.forEach(contrato -> contratoDtoList.add(contratoToDto(contrato)));
+		contratoList.forEach(contrato -> contratoDtoList.add(contratoToDto(contrato, latitude, longitude)));
 		
 		return new PageImpl<>(contratoDtoList, pageable, contratoDtoList.size());
 	}
@@ -109,20 +109,31 @@ public class ContratoService {
 		
 		for(int i = 0; i < contratoList.size(); i++) { //TODO Achar um jeito melhor de fazer esse for
 			if(i >= primeiroRegistroDaPagina && i < ultimoRegistroDaPagina) {
-				contratoDtoList.add(contratoToDto(contratoList.get(i)));
+				contratoDtoList.add(contratoToDto(contratoList.get(i), null, null));
 			}
 		}
 		return contratoDtoList;
 	}
 	
-	private ContratoDto contratoToDto(Contrato contrato) {
+	private ContratoDto contratoToDto(Contrato contrato, String latitude, String longitude) {
 		
 		ContratoDto contratoDto = new ContratoDto();
 		List<UsuarioDto> usuarios = new ArrayList<>();
 		
 		contrato.getUsuarios().forEach(usuario -> usuarios.add(usuarioToDto(usuario)));
-		
 		contratoDto.setUsuarios(usuarios);
+		
+		if(latitude != null && longitude != null) {
+			Double distancia = 6371 * Math.acos(Math.cos(Math.toRadians(Float.parseFloat(latitude))) *
+					Math.cos(Math.toRadians(Float.parseFloat(contrato.getLatitude()))) *
+					Math.cos(Math.toRadians(Float.parseFloat(contrato.getLongitude())) -
+					Math.toRadians(Float.parseFloat(longitude))) +
+					Math.sin(Math.toRadians(Float.parseFloat(latitude))) *
+					Math.sin(Math.toRadians(Float.parseFloat(contrato.getLatitude()))));
+			
+			contratoDto.setDistancia(distancia.toString());
+		}
+		
 		contratoDto.setDescricao(contrato.getDescricao());
 		
 		return contratoDto;

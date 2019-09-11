@@ -29,19 +29,19 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull
+	@NotNull(message="Nome não pode ser nulo!")
 	private String nome;
 	
 	private String sobrenome;
 	
-	@NotNull
 	@Pattern(regexp="([M]{1}|[F]{1})", message="O sexo deve ser M ou F")
 	@Length(min=1, max=1, message="O CPF deve ter apenas 1 caractere")
+	@NotNull(message="Sexo não pode ser nulo!")
 	private String sexo;
 	
 	@CPF
 	@Pattern(regexp="(\\d{3}[\\.]\\d{3}[\\.]\\d{3}[\\-]\\d{2})", message = "Formato de CPF inválido!")
-	@NotNull
+	@NotNull(message="Cpf não pode ser nulo!")
 	private String cpf;
 	
 	@Embedded
@@ -50,12 +50,12 @@ public class Usuario {
 	@Lob
 	private byte[] foto;
 	
-	@NotNull
 	@Email
+	@NotNull(message="Email não pode ser nulo!")
 	private String email;
 	
-	@NotNull
 	@Length(min = 6, message="A senha deve ter 6 ou mais caracteres")
+	@NotNull(message="Senha não pode ser nulo!")
 	private String senha;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
