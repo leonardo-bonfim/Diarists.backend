@@ -12,6 +12,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table
 public class Contrato {
@@ -20,14 +22,14 @@ public class Contrato {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
+	@NotNull(message = "descricao não pode ser nulo")
 	private String descricao;
 	
-	@NotNull
+	@NotNull(message = "restricao não pode ser nulo")
 	private String restricao;
 	
 	@Embedded
-	@NotNull
+	@NotNull(message = "endereco não pode ser nulo")
 	private Endereco endereco;
 	
 	@NotNull
