@@ -3,7 +3,7 @@ package br.com.leonardo.diarists.model;
 import java.util.Arrays;
 import java.util.List;
 
-import javax.persistence.Embedded;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -13,6 +13,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.Lob;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
@@ -44,9 +45,6 @@ public class Usuario {
 	@NotNull(message="Cpf não pode ser nulo!")
 	private String cpf;
 	
-	@Embedded
-	private Endereco endereco;
-	
 	@Lob
 	private byte[] foto;
 	
@@ -66,10 +64,14 @@ public class Usuario {
 	@ManyToMany
 	@JoinTable(
 		name="usuario_contrato",
-		joinColumns= @JoinColumn(name = "usuario_id"),
-		inverseJoinColumns = @JoinColumn(name="contrato_id")
+		joinColumns= @JoinColumn(name = "id_usuario"),
+		inverseJoinColumns = @JoinColumn(name="id_contrato")
 	)
 	private List<Contrato> contratos;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="id_endereco")
+	private Endereco endereco;
 	
 	public Long getId() {
 		return id;

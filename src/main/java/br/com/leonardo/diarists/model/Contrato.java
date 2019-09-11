@@ -3,16 +3,16 @@ package br.com.leonardo.diarists.model;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table
@@ -22,21 +22,22 @@ public class Contrato {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull(message = "descricao não pode ser nulo")
+	@NotNull(message="Descricao não pode ser nulo")
 	private String descricao;
 	
-	@NotNull(message = "restricao não pode ser nulo")
+	@NotNull(message="Restricao não pode ser nulo")
 	private String restricao;
 	
-	@Embedded
-	@NotNull(message = "endereco não pode ser nulo")
-	private Endereco endereco;
-	
-	@NotNull
+	@NotNull(message="Latitude não pode ser nula!")
 	private String latitude;
 	
-	@NotNull
+	@NotNull(message="Longitude não pode ser nula!")
 	private String longitude;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="id_endereco")
+	@NotNull(message="Endereco não pode ser nulo")
+	private Endereco endereco;
 	
 	@ManyToMany(
 		cascade=CascadeType.ALL,

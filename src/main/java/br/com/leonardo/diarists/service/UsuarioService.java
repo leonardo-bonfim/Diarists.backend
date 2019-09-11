@@ -32,7 +32,6 @@ public class UsuarioService {
 			var passwordEncoder = new BCryptPasswordEncoder();
 			
 			usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-			System.out.println(usuario.getFoto());
 			usuarioRepository.save(usuario);
 			return response;
 		}
