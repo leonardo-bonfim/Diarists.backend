@@ -22,6 +22,8 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
+import br.com.leonardo.diarists.model.endereco.Endereco;
+
 @Entity
 @Table
 public class Usuario {

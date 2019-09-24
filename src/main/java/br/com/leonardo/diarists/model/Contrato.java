@@ -14,6 +14,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import br.com.leonardo.diarists.model.endereco.Endereco;
+
 @Entity
 @Table
 public class Contrato {

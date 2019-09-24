@@ -1,12 +1,13 @@
 package br.com.leonardo.diarists.dto;
 
-import br.com.leonardo.diarists.model.Endereco;
+import br.com.leonardo.diarists.model.endereco.Endereco;
 
 public class UsuarioDto {
 	
 	private String nome;
 	private String sobrenome;
 	private String sexo;
+	private String cpf; 
 	private Endereco endereco;
 	
 	public String getNome() {
@@ -27,12 +28,17 @@ public class UsuarioDto {
 	public void setSexo(String sexo) {
 		this.sexo = sexo;
 	}
+	public String getCpf() {
+		return cpf;
+	}
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 	public Endereco getEndereco() {
 		return endereco;
 	}
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
 	}
-	
 	
 }
