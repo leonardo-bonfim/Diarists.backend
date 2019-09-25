@@ -16,6 +16,7 @@ import br.com.leonardo.diarists.repository.endereco.CidadeRepository;
 import br.com.leonardo.diarists.repository.endereco.EnderecoRepository;
 import br.com.leonardo.diarists.repository.endereco.LogradouroRepository;
 import br.com.leonardo.diarists.repository.endereco.UFRepository;
+import br.com.leonardo.diarists.response.Response;
 
 @Component
 public class EnderecoUtil {
@@ -31,7 +32,9 @@ public class EnderecoUtil {
 	@Autowired
 	private EnderecoRepository enderecoRepository;
 	
-	public Endereco gerenciarEndereco(Endereco endereco, BindingResult result) {
+	public Response<Endereco> gerenciarEndereco(Endereco endereco, BindingResult result) {
+		
+		Response<Endereco> response = new Response<>();
 		
 		Logradouro logradouro = endereco.getLogradouro();
 		Bairro bairro = null;
@@ -40,16 +43,29 @@ public class EnderecoUtil {
 		
 		if(logradouro != null)
 			bairro = logradouro.getBairro();
+		else
+			response.getErrors().add("O logradouro não pode ser nulo!");
 		
 		if(bairro != null)
 			cidade = bairro.getCidade();
+		else
+			response.getErrors().add("O bairro não pode ser nulo!");
 		
-		if(cidade != null)
+		if(cidade != null )
 			uf = cidade.getUf();
+		else
+			response.getErrors().add("A cidade não pode ser nula!");
+		
+		if(uf == null)
+			response.getErrors().add("UF não pode ser nulo!");
+		
+		if(logradouro.getNumero() == null)
+			response.getErrors().add("O número do logradouro não pode ser nulo!");
 		
 		if(logradouro == null|| cidade == null 
-				|| bairro == null || uf == null)
-			return null;
+				|| bairro == null || uf == null
+				|| logradouro.getNumero() == null)
+			return response;
 		
 		Endereco novoEndereco = new Endereco();
 		
@@ -71,10 +87,10 @@ public class EnderecoUtil {
 		}
 		else {
 			
-			Optional<Logradouro> logradouroOpt = logradouroRepository.findByNome(endereco.getLogradouro().getNome());
-			Optional<Bairro> bairroOpt = bairroRepository.findByNome(endereco.getLogradouro().getBairro().getNome());
-			Optional<Cidade> cidadeOpt = cidadeRepository.findByNome(endereco.getLogradouro().getBairro().getCidade().getNome());
-			Optional<UF> ufOpt = ufRepository.findBySigla(endereco.getLogradouro().getBairro().getCidade().getUf().getSigla());
+			Optional<Logradouro> logradouroOpt = logradouroRepository.findByNome(logradouro.getNome());
+			Optional<Bairro> bairroOpt = bairroRepository.findByNome(bairro.getNome());
+			Optional<Cidade> cidadeOpt = cidadeRepository.findByNome(cidade.getNome());
+			Optional<UF> ufOpt = ufRepository.findBySigla(uf.getSigla());
 			
 			novoEndereco.setCep(endereco.getCep());
 			
@@ -113,7 +129,8 @@ public class EnderecoUtil {
 			}
 		}
 		
-		return novoEndereco;
+		response.setData(novoEndereco);
+		return response;
 	}
 
 }

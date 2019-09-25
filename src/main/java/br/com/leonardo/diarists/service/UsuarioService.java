@@ -21,6 +21,8 @@ public class UsuarioService {
 	
 	public Response<Usuario> salvar(Usuario usuario, BindingResult result) {
 		
+		System.err.println(usuario.getEndereco().getCep());
+		
 		var response = new Response<Usuario>();
 		var endereco = enderecoUtil.gerenciarEndereco(usuario.getEndereco(), result);
 		
@@ -30,8 +32,8 @@ public class UsuarioService {
 		if(usuarioRepository.findByEmail(usuario.getEmail()).isPresent())
 			response.getErrors().add("Este email já está sendo usado!");
 		
-		if(endereco == null) {
-			response.getErrors().add("Endereço inválido!");
+		if(!endereco.getErrors().isEmpty()) {
+			endereco.getErrors().forEach(erro -> response.getErrors().add(erro));
 		}
 		
 		if(result.hasErrors())
@@ -41,10 +43,9 @@ public class UsuarioService {
 		if(response.getErrors().isEmpty()) {
 			var passwordEncoder = new BCryptPasswordEncoder();
 			
-			usuario.setEndereco(endereco);
+			usuario.setEndereco(endereco.getData());
 			
 			usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-			
 			usuarioRepository.save(usuario);
 			return response;
 		}
