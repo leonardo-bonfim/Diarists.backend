@@ -29,7 +29,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 	public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
 		clients.inMemory()
 			.withClient("ionic")
-			.secret("$2a$10$v6INs3LnW3SPyK6CXSNAS.Fm6skO0K99dRRGPB68Wdkpcm.Xp0ohq")
+			.secret("$2a$10$d30tjG9Wb4r.VqoOhzeDhuC8teWye03TOFGzAq5y1Uen2sl75NNeK")
 			.scopes("read", "write")
 			.authorizedGrantTypes("password", "refresh_token")
 			.accessTokenValiditySeconds(1800)
