@@ -3,13 +3,14 @@ package br.com.leonardo.diarists.model;
 import java.util.List;
 
 import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -21,19 +22,22 @@ public class Contrato {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	@NotNull
+	@NotNull(message="Descricao não pode ser nulo")
 	private String descricao;
 	
-	//@NotNull
-	@Column()
+	@NotNull(message="Restricao não pode ser nulo")
 	private String restricao;
 	
-	@Embedded
-	//@NotNull
-	private Endereco endereco;
-	
+	@NotNull(message="Latitude não pode ser nula!")
 	private String latitude;
+	
+	@NotNull(message="Longitude não pode ser nula!")
 	private String longitude;
+	
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+	@JoinColumn(name="id_endereco")
+	@NotNull(message="Endereco não pode ser nulo")
+	private Endereco endereco;
 	
 	@ManyToMany(
 		cascade=CascadeType.ALL,
@@ -77,6 +81,12 @@ public class Contrato {
 	public void setLongitude(String longitude) {
 		this.longitude = longitude;
 	}
+	public String getRestricao() {
+		return restricao;
+	}
+	public void setRestricao(String restricao) {
+		this.restricao = restricao;
+	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -86,6 +96,7 @@ public class Contrato {
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((latitude == null) ? 0 : latitude.hashCode());
 		result = prime * result + ((longitude == null) ? 0 : longitude.hashCode());
+		result = prime * result + ((restricao == null) ? 0 : restricao.hashCode());
 		result = prime * result + ((usuarios == null) ? 0 : usuarios.hashCode());
 		return result;
 	}
@@ -123,18 +134,17 @@ public class Contrato {
 				return false;
 		} else if (!longitude.equals(other.longitude))
 			return false;
+		if (restricao == null) {
+			if (other.restricao != null)
+				return false;
+		} else if (!restricao.equals(other.restricao))
+			return false;
 		if (usuarios == null) {
 			if (other.usuarios != null)
 				return false;
 		} else if (!usuarios.equals(other.usuarios))
 			return false;
 		return true;
-	}
-	public String getRestricao() {
-		return restricao;
-	}
-	public void setRestricao(String restricao) {
-		this.restricao = restricao;
 	}
 	
 }
