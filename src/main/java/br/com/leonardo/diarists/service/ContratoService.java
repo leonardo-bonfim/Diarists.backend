@@ -3,6 +3,7 @@ package br.com.leonardo.diarists.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -137,7 +138,6 @@ public class ContratoService {
 		contratoDto.setDescricao(contrato.getDescricao());
 		
 		return contratoDto;
-		
 	}
 	
 	private UsuarioDto usuarioToDto(Usuario usuario) {
@@ -146,6 +146,7 @@ public class ContratoService {
 		usuarioDto.setSobrenome(usuario.getSobrenome());
 		usuarioDto.setSexo(usuario.getSexo());
 		usuarioDto.setEndereco(usuario.getEndereco());
+		usuarioDto.setFoto(Base64.encodeBase64String(usuario.getFoto()));
 		
 		return usuarioDto;
 	}

@@ -9,6 +9,7 @@ import java.util.Optional;
 
 import javax.validation.ConstraintViolationException;
 
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.springframework.beans.BeanUtils;
 
 import br.com.leonardo.diarists.model.Usuario;
@@ -99,6 +100,9 @@ public class UsuarioService {
 		
 		if (usuario.getSexo() != null)
 			usuarioSalvo.setSexo(usuario.getSexo());
+		
+		if (usuario.getFoto() != null)
+			usuarioSalvo.setFoto(usuario.getFoto());
 		
 		if (response.getErrors().isEmpty())
 			response.setData(usuarioSalvo);

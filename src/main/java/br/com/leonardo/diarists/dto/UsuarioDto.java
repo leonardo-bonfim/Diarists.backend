@@ -7,6 +7,7 @@ public class UsuarioDto {
 	private String nome;
 	private String sobrenome;
 	private String sexo;
+	private String foto;	
 	private Endereco endereco;
 	
 	public String getNome() {
@@ -32,6 +33,12 @@ public class UsuarioDto {
 	}
 	public void setEndereco(Endereco endereco) {
 		this.endereco = endereco;
+	}
+	public String getFoto() {
+		return foto;
+	}
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
 	
 	
