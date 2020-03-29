@@ -22,6 +22,9 @@ import javax.validation.constraints.Pattern;
 import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.br.CPF;
 
+import br.com.leonardo.diarists.model.group.Alteracao;
+import br.com.leonardo.diarists.model.group.Criacao;
+
 @Entity
 @Table
 public class Usuario {
@@ -30,30 +33,30 @@ public class Usuario {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull(message="Nome não pode ser nulo!")
+	@NotNull(message="Nome não pode ser nulo!", groups = {Criacao.class})
 	private String nome;
 	
 	private String sobrenome;
 	
-	@Pattern(regexp="([M]{1}|[F]{1})", message="O sexo deve ser M ou F")
-	@Length(min=1, max=1, message="O CPF deve ter apenas 1 caractere")
-	@NotNull(message="Sexo não pode ser nulo!")
+	@Pattern(regexp="([M]{1}|[F]{1})", message="O sexo deve ser M ou F", groups = {Alteracao.class, Criacao.class})
+	@Length(min=1, max=1, message="O CPF deve ter apenas 1 caractere", groups = {Alteracao.class, Criacao.class})
+	@NotNull(message="Sexo não pode ser nulo!", groups = {Criacao.class})
 	private String sexo;
 	
-	@CPF
-	@Pattern(regexp="(\\d{3}[\\.]\\d{3}[\\.]\\d{3}[\\-]\\d{2})", message = "Formato de CPF inválido!")
-	@NotNull(message="Cpf não pode ser nulo!")
+	@CPF(groups = {Alteracao.class, Criacao.class})
+	@Pattern(regexp="(\\d{3}[\\.]\\d{3}[\\.]\\d{3}[\\-]\\d{2})", message = "Formato de CPF inválido!", groups = {Alteracao.class, Criacao.class})
+	@NotNull(message="Cpf não pode ser nulo!", groups = {Criacao.class})
 	private String cpf;
 	
 	@Lob
 	private byte[] foto;
 	
-	@Email
-	@NotNull(message="Email não pode ser nulo!")
+	@Email(groups = {Alteracao.class, Criacao.class})
+	@NotNull(message="Email não pode ser nulo!", groups = Criacao.class)
 	private String email;
 	
-	@Length(min = 6, message="A senha deve ter 6 ou mais caracteres")
-	@NotNull(message="Senha não pode ser nulo!")
+	@Length(min = 6, message="A senha deve ter 6 ou mais caracteres", groups = {Alteracao.class, Criacao.class})
+	@NotNull(message="Senha não pode ser nulo!", groups = {Criacao.class})
 	private String senha;
 	
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -242,5 +245,5 @@ public class Usuario {
 			return false;
 		return true;
 	}
-
+	
 }
